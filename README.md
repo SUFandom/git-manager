@@ -4,7 +4,7 @@ A git managing tool for Debian/Ubuntu and Termux.
 
 ## Badges
 
-![logo_diag](https://img.shields.io/badge/Dialog-Beta--0.2-blue?style=flat-square&logo=gnubash) Available for: ![os-deb](https://img.shields.io/badge/-Debian-red?style=flat-square&logo=debian) , ![os-ubu](https://img.shields.io/badge/-Ubuntu-orange?style=flat-square&logo=ubuntu) , ![os-and](https://img.shields.io/badge/-Android-yellowgreen?style=flat-square&logo=android)
+![logo_diag](https://img.shields.io/badge/Dialog-Beta--0.3-blue?style=flat-square&logo=gnubash) Available for: ![os-deb](https://img.shields.io/badge/-Debian-red?style=flat-square&logo=debian) , ![os-ubu](https://img.shields.io/badge/-Ubuntu-orange?style=flat-square&logo=ubuntu) , ![os-and](https://img.shields.io/badge/-Android-yellowgreen?style=flat-square&logo=android)
 
 ![logo_zenity](https://img.shields.io/badge/Zenity-Beta--0.1-green?style=flat-square&logo=gnubash) Available for: ![os-deb](https://img.shields.io/badge/-Debian-red?style=flat-square&logo=debian) , ![os-ubu](https://img.shields.io/badge/-Ubuntu-orange?style=flat-square&logo=ubuntu) , ![os-and](https://img.shields.io/badge/-Android-yellowgreen?style=flat-square&logo=android)
 
