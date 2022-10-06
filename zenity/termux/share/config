@@ -31,5 +31,7 @@ case $menu in
  bash $PREFIX/share/git-manager/config ;;
  GitPush)
  bash $PREFIX/share/git-manager/infowrite --gitpush ;;
+ 1)
+ bash git-manager.;;
 esac 
 

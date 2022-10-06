@@ -36,8 +36,8 @@ case $? in
    
 if ( grep -i "true" $PREFIX/var/lib/git-manager/key )
 then
-TMPFILE=$(mktemp /tmp/gpcs-XXXXX)
-PMFILE="/var/lib/git-manager/records.txt"
+TMPFILE=$(mktemp $PREFIX/tmp/gpcs-XXXXX)
+PMFILE="$PREFIX/var/lib/git-manager/records.txt"
 else
 TMPFILE="TMPLink Forbidden by User"
 PMFILE="PMFILE aborted by User"
