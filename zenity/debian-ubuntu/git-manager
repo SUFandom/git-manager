@@ -20,6 +20,7 @@ sleep 3
 zenity --progress \
        --title="Starting Up" \
        --text="Analyzing Resources" \
+       --auto-close \
        --percentage=0
 if ["$?" == "-1"]
 then

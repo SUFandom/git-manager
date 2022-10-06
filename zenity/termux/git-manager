@@ -21,6 +21,7 @@ zenity --progress \
        --title="Starting Up" \
        --text="Analyzing Resources" \
        --percentage=0 \
+       --auto-close \
        --height=240 --width=650
 if ["$?" == "-1"]
 then
