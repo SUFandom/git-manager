@@ -1,0 +1,77 @@
+#!/bin/bash 
+
+if [[ "$1" == "--del" ]]
+then
+zenity --question --text="Warning:\n\nSome Folders may not be present due to Disabled key to record your attempt to clone..\n\nSo we are telling you to Enable it in Settings/Config or just delete them by just doing rm -rf 'insert dir'\n\n Yes- You Will proceed to see the lists of the Saved Records that you've git \n\n No - Go back to main.." --height=290 --width=700
+if [[ "$?" == "0" ]]
+then
+echo "0"
+else
+bash git-manager
+fi 
+RES="$PREFIX/var/lib/git-manager/records.txt"
+zenity --text-info \
+  --title="Saved Git Clone Records" \
+  --filename=$RES \
+  --checkbox="I Read and Copied the Directory Link" \
+  --height=290 --width=700 
+
+case $? in 
+  0)
+  echo "" ;;
+  1)
+  bash git-manager ;;
+  -1)
+  zenity --error --text="An unknown Error Occurred while Processing the Script, Aborting the Session to prevent more damage. \nPlease Report to the Developer about the issue in the meantime..\n\n\nCopy the Issue.. : infowrite_session_fail_PROCESS - SESSION_DEL_AGREE" --height=270 --width=640 ; exit -1 ;;
+ esac
+input_dir=$(zenity --forms --title="Remove Repo Dir" --text="Enter what you want to remove the dir...\nCase Sensitive" --separator="," --add-entry="Dir Link.." --height=240 --width=560)
+case $? in 
+ 0)
+ rm -rf $input_dir 
+ echo "Deleted.."
+ bash git-manager ;;
+ 1)
+ bash git-manager ;;
+ -1)
+ zenity --error --text="An Unknown Error Occurred while Processing the Script, Aborting the Session to prevent damage.\nPlease Report to the Devs about the issue:\n infowrite_session_fail_PROCESS_DEL_FILE" --height=240 --width=640
+ exit 1 ;;
+esac
+
+fi
+
+if [ "$1" == "--gitpush" ]
+then
+VAR1=$(zenity --forms --title="Configuration for Git Push" --text="Enter your User Name" --separator="," --add-entry="User Name from your Github Account" --height=200 --width=400)
+case $? in
+ 1)
+ bash git-manager ;;
+ -1)
+ zenity --error --text="An Unknown Error Has Occurred and Will stop the process to prevent further Damage.\n\nPlease Report to the GitHub Page for the issue: infowrite_session_fail_GITPUSH_Q1_UNKNOWN"
+VAR2=$(zenity --forms --title="Configuration for Git Push" --text="Enter your User Email" --separator="," --add-entry="User Email From your GitHub Account" --height=200 --width=400)
+case $? in 
+ 0)
+ (
+   echo "0" ; sleep 1
+   echo "# Configuring User Name..." ; git config --global user.name $VAR1 ; sleep 1
+   echo "50" ; sleep 1
+   echo "# Configuring User Email..." ; git config --global user.email $VAR2 ; sleep 1
+   echo "100" ; sleep 1
+   echo "# Done.. Close Progress Bar Session by Pressing OK.."
+   ) |
+   zenity --progress \
+   --title="Configuration" \
+   --text="N" \
+   --height=240 --width=600
+  bash git-manager
+  ;;
+  1)
+  bash git-manager
+  -1)
+  zenity --error --text="An unexpected error has detected, To Prevent further Damage, The process will stop abruptly and then Please Report the issue by Copying the Code Error: \n\n infowrite_session_fail_GITPUSH_ENTRY_INIT_FAIL" --height=240 --width=630 
+  exit 1
+  ;;
+  esac
+   
+
+fi
+

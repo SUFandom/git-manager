@@ -1,0 +1,55 @@
+#!/bin/bash
+
+echo "Window X Session must be :1"
+sleep 3
+
+(
+  echo "5" ; sleep .5
+  echo "# Checking files: (1/5) Key" ; if [ -e /var/lib/git-manager/key ] ; then echo "" ; else touch /var/lib/git-manager/key ; fi
+  echo "31" ; sleep .5 
+  echo "# Checking files: (2/5) clone" ; if [ -e /usr/share/git-manager/clone  ] ; then echo "" ; else echo "Missing Assets: clone in /usr/share/git-manager, Please Reinstall." ; exit ; fi ; sleep .5
+  echo "45" ; sleep .5 
+  echo "# Checking Files: (3/5) config" ; if [ -e /usr/share/git-manager/config ] ; then echo "" ; else echo "Missing Assets: config in /usr/share/git-manager, Please Reinstall." ; exit ; fi ; sleep .5
+  echo "67" ; sleep .5 
+  echo "# Checking Files: (4/4) infowrite" ; if [ -e /usr/share/git-manager/infowrite ] ; then echo "" ; else echo "Missing Assets: infowrite in /usr/share/git-manager, Please Reinstall." ; exit ; fi ; sleep .5
+  echo "95" ; sleep .5
+  echo "# Checking Repository: Git" ; if (command -v apt > /dev/null) ; then echo "" ; else echo "Missing Git package , please reinstall via apt." ; exit ; fi ; sleep .5
+  echo "100" ; sleep .5
+  echo "# Done" ; sleep 3
+  ) | 
+zenity --progress \
+       --title="Starting Up" \
+       --text="Analyzing Resources" \
+       --percentage=0
+if ["$?" == "-1"]
+then
+zenity --error --text="Checking Failed, please check what the Bash output said about it...."
+fi
+
+zenity --notification \
+    --window-icon="info" \
+    --text="Git-manager Beta (main) is starting at your current window session, press 'Do default Action' to continue..."
+ 
+menu=$(zenity --list --title="Git-Manager Beta" --column="Selection" --column="Description" \
+  Clone "Clone a Repository" \
+  Settings "Configure Git-manager" \
+  Delete "(Experimental)Delete a Directory that you've Cloned" \
+  About "About Git-manager" \
+  --width=700 --height=250
+  )
+if [ "$?" == -1 ]
+then 
+echo "Unexpected End of Process" 
+exit 
+fi 
+case $menu in 
+ Clone)
+ bash /usr/share/git-manager/clone ;;
+ Settings)
+ bash /usr/share/git-manager/config ;;
+ Delete)
+ bash /usr/share/git-manager/infowrite --del ;;
+ About)
+ zenity --info --text="Git-manager Beta v.0.1 - (Zenity) By SUFandom \n ©2022 MIT License\n\n Git Link: https://github.com/SUFandom/git-manager\n Made with Passion" --height=240 --width=600 ; bash git-manager ;;
+esac
+

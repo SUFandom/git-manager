@@ -1,0 +1,35 @@
+#!/bin/bash
+
+if (grep -i "true" /var/lib/git-manager/key)
+then
+VARL="Current Log Trace is true"
+else 
+VARL="CURRENT Log Trace is false..."
+fi 
+
+menu=$(zenity --list --title="Configuration Settings" \
+  --column="Selection" --column="Description" \
+  Trace "($VARL) Saves log data on where did you save the repository" \
+  GitPush "(EXPERIMENTAL) Enters Github account for Git Push Authorization "  \
+  --width=700 --height=250
+)
+case $? in 
+ 1)
+ bash git-push ;;
+ -1)
+ zenity --error --text="An error Occurred while processing Requests... \n\nCopy this Error and send to Issue: config_main_session_FAIL" --width=640 --height=245 ; bash git-manager ;;
+ esac 
+case $menu in 
+ Trace)
+ if ( grep -i "true" /var/lib/git-manager/key )
+ then
+ echo  "false" > /var/lib/git-manager/key 
+ bash /usr/share/git-manager/config
+ else
+ echo "true" > /var/lib/git-manager/key
+ fi
+ bash /usr/share/git-manager/config ;;
+ GitPush)
+ bash /usr/share/git-manager/infowrite --gitpush ;;
+esac 
+

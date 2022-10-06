@@ -1,0 +1,74 @@
+#!/bin/bash 
+
+input_a=$(zenity --forms --title="Enter User/Organization Repository Account" \
+--text="Enter The User/Organization you want to access the Repository\n(Case Sensitive)" \
+--separator="," \
+--add-entry="Organization/User" 
+)
+case $? in 
+  0)
+  echo "" ;;
+  1)
+  bash git-manager ;;
+  -1)
+  zenity --error --text="System Error Exited with -1, \nPlease Report the issue: clone_session_INPUT_A_FAIL_UX" ; exit 1 ;;
+esac
+input_b=$(zenity --forms --title="Enter what you want to access  $input_a's Github" \
+--text="Enter what Repository you want from $input_a\n(Case Sensitive)" \
+--separator="," \
+--add-entry="Repo Project" 
+)
+case $? in
+ 0)
+ (
+   echo "10" ; sleep .5
+   echo "# Starting Cloning......" ; git clone https://github.com/$input_a/$input_b ; sleep .5
+   echo "70" ; sleep .5
+   echo "# Checking folder....." ; if [ -e $input_b ] ; then echo "" ; else zenity --error --text="Error: \n Couldn't find folder or Connection issue. Please Try to read Readline Issue to figure out the problem, if it still persists, then submit this error thread with error layouted by Git in Terminal Window Session.. :\n\n clone_session_MIS-FILE-OR-NET-ISSUE" --height=240 --width=600 && exit 1 ; fi 
+   echo "100" ; sleep .5
+   echo "# Done, Ok to leave loading session"
+   ) |
+   zenity --progress \
+   --title="Cloning..." \
+   --text="Cloning..." \
+   --percentage=0 \
+   --height=240 --width=480 
+   
+if ( grep -i "true" $PREFIX/var/lib/git-manager/key )
+then
+TMPFILE=$(mktemp /tmp/gpcs-XXXXX)
+PMFILE="/var/lib/git-manager/records.txt"
+else
+TMPFILE="TMPLink Forbidden by User"
+PMFILE="PMFILE aborted by User"
+fi
+TIME=$(date)
+HERE=$(pwd)
+
+if (grep -i "true" $PREFIX/var/lib/git-manager/key)
+then
+echo "Begin TMP Log Data" >> $TMPFILE
+echo "Date: $TIME" >> $TMPFILE
+echo "User Acessed: $input_a's $input_b" >> $TMPFILE
+echo "Repository Downloaded: $input_b" >> $TMPFILE
+echo "Located: $HERE/$input_b" >> $TMPFILE
+echo "" >> $TMPFILE
+echo "Begin TMP Log Data" >> $PMFILE
+echo "Date: $TIME" >> $PMFILE
+echo "User Acessed: $input_a's $input_b" >> $PMFILE
+echo "Repository Downloaded: $input_b" >> $PMFILE
+echo "Located: $HERE/$input_b" >> $PMFILE
+echo "" >> $PMFILE
+fi
+
+if [ -d $input_b ] && ( grep -i "true" $PREFIX/var/lib/git-manager/key )
+then
+  zenity --info --text="Info Saved via $TMPFILE and $PMFILE for Debugging"
+ fi
+   bash git-manager
+   ;;
+ 1)
+ bash $PREFIX/share/git-manager/clone ;;
+ -1)
+ zenity --error --text="Couldn't start Cloning Git... Submit an issue thread Please.\n\nCopy The Error: clone_session_process_FAIL -SQ:$input_a/$input_b-RES0" ; exit 1 ;;
+esac
