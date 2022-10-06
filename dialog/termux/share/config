@@ -44,7 +44,7 @@ case $SELECTION in
   else
   echo "true" > $PREFIX/var/lib/git-manager/key
   fi
-  bash $PREFIX/usr/share/git-manager/config
+  bash $PREFIX/share/git-manager/config
   ;;
   "GitPush")
   bash $PREFIX/share/git-manager/infowrite --glbl
