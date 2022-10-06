@@ -18,15 +18,17 @@ HERE=$(pwd)
 
 exec 3>&1
 input_a=$(dialog --backtitle "Enter Input" --title "Clone" --inputbox "Enter what Git User you want to enter? (Case Sensitive)" 0 0 2>&1 1>&3)
+ezx=$?
 exec 3>&-
-case $? in
+case $ezx in
  $DIALOG_CANCEL)
   bash git-manager ;;
  esac
  exec 3>&1
 input_b=$(dialog --backtitle "Enter input" --title "Clone" --inputbox "Enter what Git Repository you want from $input_a? (Case Sensitive)" 0 0 2>&1 1>&3)
+exy=$?
 exec 3>&-
-case $? in
+case $ezy in
  $DIALOG_CANCEL)
  bash git-manager ;;
  esac
